@@ -1,0 +1,764 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Data Collection
+\end_layout
+
+\begin_layout Standard
+Overview 
+\end_layout
+
+\begin_layout Standard
+An embedded sensor architecture, was used to gather acoustic data from ground
+ vehicles at various locations around the Southampton University area.
+ The simplest form of acoustic data collection system consists of an acoustic
+ source and a collection circuit.
+ The circuit consists of a microphone, a preamplifier, an amplifier, connecting
+ cables, a recording system, and a power source.
+ Microphones are used to convert acoustic pressure fluctuations in the atmospher
+e into electrical signals.
+ The acoustic signals were pre-amplified with a selectable gain before being
+ passed onto the Raspberry Pi for more signal processing and later analysed
+ on a personal computer.
+ The Data and Configuration files are the two files that are saved on the
+ Raspberry Pi, where the former contains the actual data samples and the
+ latter contains configuration settings of a specific recording.
+\end_layout
+
+\begin_layout Standard
+Sound sources have their own distinct characteristics to allow identification
+ and tracking of the source.
+ However, as a sound propagates through the atmosphere, it may be affected
+ by a variety of meteorological and atmospheric conditions.
+ The sound received can also be modified by surface conditions such as terrain
+ and other geographical features.
+ Obstructions in the line of sight can also influence the received amplitude
+ and frequency of the signal although this may not be a major requirement
+ to receive signal.
+ The characteristics of recording systems can also influence received data
+ therefore extra care was taken to try to develop a reliable recording system.
+ Planning to capture acoustic measurements in the atmosphere requires that
+ certain variables are identified, evaluated and documented.
+ At a minimum, these include the characteristics of the sound source, a
+ description of the recording system, characterization of meteorological
+ and ground conditions along the propagation path, a description of the
+ terrain, and notes on nuisance sound sources.
+\end_layout
+
+\begin_layout Standard
+Acoustic signatures are normally non-stationary [1] and are often corrupted
+ by propagation effects, noise, and interference from the environment.
+ The spectral characteristics of vehicle noise are distinctive and their
+ acoustic signatures are dominated by narrow band spectral peaks.
+ The main problem faced in classification is the selection of proper feature
+ vectors that will be stable and class specific.
+\end_layout
+
+\begin_layout Standard
+Setup
+\end_layout
+
+\begin_layout Standard
+The collection setup involved two directional microphones placed about 30cm
+ apart to allow cross correction analysis of the acoustic signals.
+ The microphones used offer a simple low cost solution and provide enough
+ signal to noise ratio for vehicle sound recordings with low sensitivity
+ to wind effects.
+ The microphones feed into an amplification stage circuit before the signal
+ is passed onto the ADC circuit.
+ Signals from the ADC stage are then passed to the raspberry pi for further
+ signal processing and data storage.
+ The raspberry pi is powered by a portable battery within the enclosure.
+ The pi then connect to a laptop using putty as a terminal interface to
+ access and analyses the input signals.
+ A video feed of the respective vehicles is also captured to help in the
+ matching of different vehicles with their acoustic signatures.
+ The video is captured using a GoPro hero3 camera and the data files from
+ the raspberry pi are converted to wav files using Matlab and stored on
+ the laptop using FileZilla.
+ The data collection circuitry is all enclosed in a single casing that is
+ placed at around 1.5 to 2m from the side of the road with microphones protruding
+ out.
+ Figure 1 shows the acoustic data collection setup.
+ Care is taken when placing the casing on the ground surface as Seismic
+ vibrations can influence the signal output.
+ The environment has a dramatic effect on the transmission of acoustic signals
+ through the atmosphere.
+ Transmission losses are frequency dependent, so the received signal depends
+ upon atmospheric conditions along the propagation path.
+ The data log is a time referenced spread sheet used to record source activity
+ and changes that take place during a test.
+ Unusual conditions about the test location are all recorded down in the
+ Configuration file.
+ The position of the sensor in relation to the source such as the height,
+ direction and distance would affect the received signal’s characteristics
+ therefore a flat frequency response microphone allows collection of data
+ with little modification due to the sensor’s characteristics.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename collection setup.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Acoustic Data Collection Setup
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Data Collection Strategy 
+\end_layout
+
+\begin_layout Standard
+Data collection was performed by placing the collection circuit on the side
+ of the road.
+ The road where both urban and suburban highways with both single and dual
+ traffic lanes.
+ Having a directional microphone is beneficial to collecting signals directly
+ emitted from the moving vehicles whilst minimising wind and other unwanted
+ noise signals.
+ Initially the plan pertained to collecting sound recordings with limited
+ background noise to eliminate the need for filtering but this proved hard
+ to achieve as these conditions where had to obtain.
+ To recognise acoustic events efficiently, recordings of about 5-10 min
+ from various setup environments were recorded.
+ To avoid data contamination from Human sources I ensured to refrain from
+ speaking or making necessary noises when working around the acoustic sensors.
+ After finding a suitable site the equipment was placed on the ground and
+ setup from a laptop using the putty terminal interface.
+ The setup involved resetting the raspberry pi, checking that all the connection
+s were intact and documenting any details about location and system configuratio
+n.
+\end_layout
+
+\begin_layout Standard
+The events in the recordings were manually annotated by specifying the name
+ and exact location of each audible event within the files.
+ Figure 2 provides sample database of the recordings made at Kitchener road.
+ Vehicles passing the microphone pair were extracted from raw input data
+ by listening to audio and the watching contemporary video in order to gather
+ information about vehicle type and speed.
+ Suitable vehicle categories were defined according to different class definitio
+ns which later used to establish the categories for the classification system.
+ Four different class where been for this project’s classification system
+ namely, car, truck, van and motorcycles.
+ A large number vehicles per category are needed to ensure reliable feature
+ extraction and classification performance.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename extracted events.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Number of events extracted for a samle context of the recording
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sites 
+\end_layout
+
+\begin_layout Standard
+The sites were selected to capture the sound of moving vehicles with certain
+ characteristics in mind such as locations with/without much car acceleration
+ or gear change, different types of vehicles likely to be observed at a
+ sites, different environmental conditions and having multiple or a single
+ car at a time.
+ The recordings were attempted without capturing undue attention from motorists
+ and other road users.
+ Road test where made on areas around Southampton including Highfield lane,
+ St Denys etc.
+ Table 1 shows a few of these area and their suitability as testing site
+ and Figure 3 illustrates the location of the sites on google map.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Location
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Road Speed limit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Comments
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Highfield lane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Urban dual lane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12ºC, cloudy, mild winds
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Violet Road
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Urban single lane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10ºC, sunny, moderate winds
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+St Denys Rd
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Suburban highway
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15ºC, sunny, mild winds
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Portswood Rd
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Urban dual lane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9ºC, cloudy, moderate winds
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A27
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Suburban highway
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9ºC, cloudy, moderate winds
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Broadlands Rd
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Urban single lane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12ºC, cloudy, mild winds
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A list of a few of the data collection sites
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename collection sites.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Data collection sites illustrated on google maps
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Analysis 
+\end_layout
+
+\begin_layout Standard
+Collected vehicle data was analysed and studied using Matlab.
+ Matlab is a multipurpose software tool that can be used for analysis of
+ recorded data.
+ It was also used for labelling and observing the characteristics of the
+ recorded vehicle data as illustrated in Figure 4.
+ Analysing the energy contour showed that with the passing of each vehicle,
+ there was it was an increase in energy.
+ The maximum energy is recorded at the instant a vehicle crosses the audio
+ recorder.
+ The data file stored on the raspberry pi was also converted to wave file
+ using a dat2wav Matlab script.
+ The analysis of vehicle audio recordings from the wave file indicated that
+ detection of energy peaks may give an approximate count of vehicles passing
+ the recorder at a given point.
+ Analysis from initial phase of data collection showed that many of the
+ recording where affected by noise from the hardware.
+ This noise was quite significant rendering many of the initial recordings
+ unusable.
+ A more reliable design hardware was later created that was used for phase
+ 2, 3 and 4 of data collection.
+ Data was mainly stored on a laptop with an external backup and later uploaded
+ to google drive to be accessed by the other group members.
+\end_layout
+
+\begin_layout Standard
+Vehicles of the same type and working in similar conditions normally generate
+ similar sound features, or noise signatures.
+ When travelling at different speeds, under different road conditions, or
+ with different acceleration, a vehicle emits different noise patterns.
+ These noises are sampled and grouped in a series of short time frames.
+ When the spectrum changes with time, it can be described in the frequency
+ domain as the change of frequency spectrum distribution over frames.
+ When a vehicle is moving it may experience bumps that also causes changes
+ in the frame's spectrum.
+ For a car passing by, there can be more than 2 seconds of sustained signal
+ available therefore a frame of about 0.2 second is used for each spectrum
+ analysis making at least several dozen samples available for classification.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename signal representation.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Acoustic signal representation in the time domain using Matlab
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Risk assessment 
+\end_layout
+
+\begin_layout Standard
+As part of managing the safety issues while out making recording, a risk
+ assessment was necessary to evaluate the likely hazards and preventive
+ methods needed to avoid accident on the road.
+ A sample of the risk assessment form is attached in the Appendix.
+ It was necessary to have a copy of this document while collecting data
+ and presented to any law enforcers.
+ For some risks, particular control measures where needed and this assessment
+ helped in identifying where I needed to look at certain risks and particular
+ control measures to implement.
+ One of the most important aspects of the risk assessment was to accurately
+ identifying the main potential hazards.
+ A good starting point was to always walk around the collection site and
+ think about any hazards that could to lead injuring me or other road user.
+ Among the safety measures undertaken while collecting data involved wearing
+ a high visibility jacket and staying well clear of the road after the setup
+ is done and ensuring the sites have a curb large enough not to destruct
+ other road users.
+ 
+\end_layout
+
+\begin_layout Standard
+ref
+\end_layout
+
+\begin_layout Standard
+[1] Automated Vehicle Detection and Classification using Acoustic and Seismic
+ Signals
+\end_layout
+
+\end_body
+\end_document
